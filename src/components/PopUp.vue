@@ -68,8 +68,8 @@
                 v-model="beschrijving"
                 :rules="inputValidation"
               ></v-textarea>
-              <v-btn @click="submit" :loading="loading" class="success mx-2 mt-3">Voeg evenement toe</v-btn>
-              <v-btn @click="dialog=false" class="success mx-2 mt-3">cancel</v-btn>
+              <v-btn @click="submit" :loading="loading" class="primary mx-2 mt-3">Voeg evenement toe</v-btn>
+              <v-btn @click="dialog=false" class="primary mx-2 mt-3">cancel</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
