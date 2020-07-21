@@ -25,12 +25,12 @@
 
       <v-card flat v-for="evenementItem in evenementen" :key="evenementItem.evenement">
         <v-row
-          align="center"
+          align="top"
           justify="space-around"
           style="min-height: 100px"
           :class="`pl-3 evenement ${evenementItem.status}`"
         >
-          <v-col cols="12" md="3">
+          <v-col cols="12" md="2">
             <div class="caption grey--text">Evenement Naam</div>
             <div>{{evenementItem.evenement}}</div>
           </v-col>
@@ -42,15 +42,32 @@
           <v-col cols="6" sm="4" md="2">
             <div class="caption grey--text">Datum</div>
             <div>{{evenementItem.datum}}</div>
+            <v-row>
+              <v-col>
+                <div class="caption grey--text">
+                  start uur:
+                  <span class="black--text">{{evenementItem.startUur}}</span>
+                </div>
+              </v-col>
+              <!-- </v-row>
+              <v-row>-->
+              <v-col>
+                <div class="caption grey--text">
+                  eind uur:
+                  <span class="black--text">{{evenementItem.eindUur}}</span>
+                </div>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col cols="6" sm="4" md="2">
+
+          <v-col cols="6" sm="2" md="2">
             <div class="caption grey--text">Locatie</div>
             <div>{{evenementItem.locatie}}</div>
           </v-col>
-          <v-col cols="6" md="3">
+          <v-col cols="6" md="1">
             <!-- <div class="caption grey--text">Evenement status</div> -->
             <!-- <div>{{evenementItem.status}}</div> -->
-            <div class="right">
+            <div>
               <v-chip
                 small
                 :class="`${evenementItem.status} white--text caption`"
@@ -74,48 +91,7 @@ export default {
   components: {},
   data() {
     return {
-      evenementen: [
-        // {
-        //   evenement: "NBA-final",
-        //   type: "sport",
-        //   organisator: "wilfried",
-        //   locatie: "sportzaal aalter",
-        //   datum: "1/12/2020 21u",
-        //   status: "voorbereiding",
-        //   beschrijving:
-        //     "1Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, perferendis deleniti? Doloribus quibusdam magnam quae commodi pariatur id accusantium excepturi delectus molestiae fugit ducimus, voluptate blanditiis voluptatem repudiandae repellat molestias."
-        // },
-        // {
-        //   evenement: "live action video performance",
-        //   type: "cultuur",
-        //   organisator: "corneel",
-        //   locatie: "sint pieters abdij",
-        //   datum: "1/11/2020 19u",
-        //   status: "afgewerkt",
-        //   beschrijving:
-        //     "2Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, perferendis deleniti? Doloribus quibusdam magnam quae commodi pariatur id accusantium excepturi delectus molestiae fugit ducimus, voluptate blanditiis voluptatem repudiandae repellat molestias."
-        // },
-        // {
-        //   evenement: "boring stuff to develop website",
-        //   type: "vergadering",
-        //   organisator: "corneel",
-        //   locatie: "ten dries",
-        //   datum: "1/10/2020 20u",
-        //   status: "afgewerkt",
-        //   beschrijving:
-        //     "3Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, perferendis deleniti? Doloribus quibusdam magnam quae commodi pariatur id accusantium excepturi delectus molestiae fugit ducimus, voluptate blanditiis voluptatem repudiandae repellat molestias."
-        // },
-        // {
-        //   evenement: "promo activiteit voor lancering website",
-        //   type: "film",
-        //   organisator: "corneel",
-        //   locatie: "studio skoop",
-        //   datum: "1/9/2020 14u",
-        //   status: "gepasseerd",
-        //   beschrijving:
-        //     "4Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, perferendis deleniti? Doloribus quibusdam magnam quae commodi pariatur id accusantium excepturi delectus molestiae fugit ducimus, voluptate blanditiis voluptatem repudiandae repellat molestias."
-        // }
-      ]
+      evenementen: []
     };
   },
   methods: {
