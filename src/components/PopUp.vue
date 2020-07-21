@@ -123,7 +123,6 @@
               <!-- einde begin uur en eind uur toevoegen met time picker -->
 
               <v-spacer></v-spacer>
-
               <v-text-field
                 label="Status"
                 prepend-icon="help"
@@ -194,7 +193,7 @@ export default {
             this.loading = false;
             this.dialog = false;
             this.$emit("eventAdded");
-            console.log("added to db: " + evenement.startUur);
+            console.log("added to db: " + evenement.eindUur);
           });
       }
     }
