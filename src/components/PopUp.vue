@@ -136,7 +136,7 @@
                 :rules="inputValidation"
               ></v-textarea>
               <v-btn @click="submit" :loading="loading" class="primary mx-2 mt-3">Voeg evenement toe</v-btn>
-              <v-btn @click="dialog=false" class="primary mx-2 mt-3">cancel</v-btn>
+              <v-btn @click="cancel" class="primary mx-2 mt-3">cancel</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -196,6 +196,10 @@ export default {
             console.log("added to db: " + evenement.eindUur);
           });
       }
+    },
+    cancel() {
+      this.dialog = false;
+      this.$refs.form.reset();
     }
   },
   computed: {
