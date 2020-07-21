@@ -54,6 +54,74 @@
                 <v-date-picker v-model="datum" locale="nl"></v-date-picker>
               </v-menu>
               <!-- voeg het begin uur en eind uur toe met time picker -->
+              <!-- voeg het begin uur toe met time picker -->
+              <v-row>
+                <v-col cols="11" sm="5">
+                  <v-menu
+                    ref="menu1"
+                    v-model="timePicker1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="startUur"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="startUur"
+                        label="start uur"
+                        prepend-icon="access_time"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="timePicker1"
+                      v-model="startUur"
+                      full-width
+                      @click:minute="$refs.menu1.save(startUur)"
+                    ></v-time-picker>
+                  </v-menu>
+                </v-col>
+                <v-spacer></v-spacer>
+
+                <!-- voeg het eind uur toe met time picker -->
+                <v-col cols="11" sm="5">
+                  <v-menu
+                    ref="menu2"
+                    v-model="timePicker2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="eindUur"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="eindUur"
+                        label="eind uur"
+                        prepend-icon="access_time"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="timePicker2"
+                      v-model="eindUur"
+                      full-width
+                      @click:minute="$refs.menu2.save(eindUur)"
+                    ></v-time-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
+              <!-- einde begin uur en eind uur toevoegen met time picker -->
+
               <v-spacer></v-spacer>
 
               <v-text-field
@@ -86,12 +154,16 @@ import db from "@/fb";
 export default {
   data() {
     return {
+      timePicker1: false,
+      timePicker2: false,
       dialog: false,
       evenement: "",
       type: "",
       organisator: "",
       locatie: "",
       datum: null,
+      startUur: null,
+      eindUur: null,
       status: "",
       beschrijving: "",
       inputValidation: [
@@ -111,6 +183,8 @@ export default {
           organisator: this.organisator,
           locatie: this.locatie,
           datum: format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+          startUur: this.startUur,
+          eindUur: this.eindUur,
           status: this.status,
           beschrijving: this.beschrijving
         };
@@ -120,7 +194,7 @@ export default {
             this.loading = false;
             this.dialog = false;
             this.$emit("eventAdded");
-            //console.log("added to db: " + evenement.evenement);
+            console.log("added to db: " + evenement.startUur);
           });
       }
     }
