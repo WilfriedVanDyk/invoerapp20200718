@@ -9,7 +9,9 @@
 
 // Your web app's Firebase configuration
 
-import firebase from 'firebase';
+//import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 // eslint-disable-next-line no-var
 var firebaseConfig = {
