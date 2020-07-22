@@ -9,27 +9,21 @@
             <v-card flat>
               <v-card-text class="px-4 py-1 grey--text">
                 <!-- <div class="font-weight-bold">datum: {{ evenementItem.datum }}</div> -->
-                <v-col cols="6" sm="4" md="2">
-                  <div class="font-weight-bold">
-                    Datum:
-                    <span>{{evenementItem.datum}}</span>
-                  </div>
 
+                <div class="font-weight-bold">Datum: {{evenementItem.datum}}</div>
+                <v-col cols="12" sm="4" md="2">
                   <v-row>
-                    <v-col>
-                      <div class="caption grey--text">
-                        start uur:
-                        <span class="black--text">{{evenementItem.startUur}}</span>
-                      </div>
-                    </v-col>
-                    <!-- </v-row>
-                    <v-row>-->
-                    <v-col>
-                      <div class="caption grey--text">
-                        eind uur:
-                        <span class="black--text">{{evenementItem.eindUur}}</span>
-                      </div>
-                    </v-col>
+                    <div class="caption grey--text">
+                      start uur:
+                      <span class="black--text">{{evenementItem.startUur}}</span>
+                    </div>
+
+                    <div class="caption grey--text">
+                      eind uur:
+                      <span class="black--text">{{evenementItem.eindUur}}</span>
+                    </div>
+
+                    <div>{{evenementItem.status}}</div>
                   </v-row>
                 </v-col>
                 <div>{{evenementItem.beschrijving }}</div>

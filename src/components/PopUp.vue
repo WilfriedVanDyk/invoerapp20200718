@@ -122,12 +122,14 @@
               </v-row>
               <!-- einde begin uur en eind uur toevoegen met time picker -->
 
-              <v-text-field
-                label="Status"
+              <v-overflow-btn
+                class="my-2 mx-2"
                 prepend-icon="help"
+                :items="statusArray"
+                label="status ?"
                 v-model="status"
-                :rules="inputValidation"
-              ></v-text-field>
+              ></v-overflow-btn>
+
               <v-textarea
                 label="Beschrijving evenement"
                 prepend-icon="edit"
@@ -168,7 +170,8 @@ export default {
         v => (v && v.length >= 3) || " de minimum lengte is 3 karakters",
         v => (v && v.length <= 300) || " de maximum lengte is 300 karakters"
       ],
-      loading: false
+      loading: false,
+      statusArray: ["in voorbereiding", "afgewerkt", "gepasseerd"]
     };
   },
   methods: {
@@ -192,7 +195,7 @@ export default {
             this.loading = false;
             this.dialog = false;
             this.$emit("eventAdded");
-            console.log("added to db: " + evenement.startUur);
+            console.log("added to db: " + evenement.datum);
             this.$refs.form.reset();
           });
       }
