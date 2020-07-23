@@ -3,7 +3,7 @@
     <h1 class="subtitle-1 grey--text">Mijn evenementen</h1>
     <v-container class="my-5">
       <v-expansion-panels popout multiple>
-        <v-expansion-panel v-for="evenementItem in MijnEvenementen" :key="evenementItem.evenement">
+        <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement">
           <v-expansion-panel-header>{{evenementItem.evenement}}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-card flat>
@@ -11,8 +11,9 @@
                 <!-- <div class="font-weight-bold">datum: {{ evenementItem.datum }}</div> -->
 
                 <div class="font-weight-bold">Datum: {{evenementItem.datum}}</div>
-                <v-col cols="12" sm="4" md="2">
-                  <v-row>
+
+                <v-row>
+                  <v-col cols="12" sm="4" md="2">
                     <div class="caption grey--text">
                       start uur:
                       <span class="black--text">{{evenementItem.startUur}}</span>
@@ -24,9 +25,10 @@
                     </div>
 
                     <div>{{evenementItem.status}}</div>
-                  </v-row>
-                </v-col>
-                <div>{{evenementItem.beschrijving }}</div>
+                  </v-col>
+                </v-row>
+
+                <v-col cols="12" md="12">{{evenementItem.beschrijving }}</v-col>
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -46,28 +48,31 @@ export default {
   components: {},
   data() {
     return {
-      evenementen: []
+      evenementen: [],
     };
   },
   computed: {
-    MijnEvenementen() {
-      return this.evenementen.filter(evenementItem => {
-        return evenementItem.organisator === "Wilfried";
-      });
-    }
+    // MijnEvenementen() {
+    //   return this.evenementen.filter((evenementItem) => {
+    //     return evenementItem.organisator === "Wilfried";
+    //   });
+    // },
   },
   created() {
-    db.collection("evenementen").onSnapshot(res => {
-      const changes = res.docChanges();
-      changes.forEach(change => {
-        if (change.type === "added") {
-          this.evenementen.push({
-            ...change.doc.data(),
-            id: change.doc.id
-          });
-        }
+    db.collection("evenementen")
+      .orderBy("evenement")
+      .where("organisator", "==", "Wilfried") //hier in where clause met ingelogde gebruiker
+      .onSnapshot((res) => {
+        const changes = res.docChanges();
+        changes.forEach((change) => {
+          if (change.type === "added") {
+            this.evenementen.push({
+              ...change.doc.data(),
+              id: change.doc.id,
+            });
+          }
+        });
       });
-    });
-  }
+  },
 };
 </script>

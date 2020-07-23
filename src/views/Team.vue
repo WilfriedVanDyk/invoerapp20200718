@@ -37,10 +37,10 @@
 <script>
 // @ is an alias to /src
 //import HelloWorld from '@/components/HelloWorld.vue'
-import image1 from "@/assets/pictures/VanDykWilfried.jpg";
-import image2 from "@/assets/pictures/Corneel.jpg";
-import image3 from "@/assets/pictures/Bram.jpg";
-import image4 from "@/assets/pictures/Jelke.jpg";
+import image1 from "../assets/pictures/VanDykWilfried.jpg";
+import image2 from "../assets/pictures/Corneel.jpg";
+import image3 from "../assets/pictures/Bram.jpg";
+import image4 from "../assets/pictures/Jelke.jpg";
 
 export default {
   name: "team",
@@ -52,36 +52,36 @@ export default {
           name: "Wilfried",
           role: "Web developer",
           //picture: "@/assets/pictures/VanDykWilfried.jpg",
-          picture: image1
+          picture: image1,
         },
 
         {
           name: "Corneel",
           role: "project leader",
           //picture: "@/assets/pictures/Corneel.jpg",
-          picture: image2
+          picture: image2,
         },
 
         {
           name: "Bram",
-          role: "Web developer master",
+          role: "Web zen master",
           //picture: "@/assets/pictures/Bram.jpg"
-          picture: image3
+          picture: image3,
         },
 
         {
           name: "Jelke",
           role: "Sales guru",
           //picture: "@/assets/pictures/Jelke.jpg"
-          picture: image4
-        }
-      ]
+          picture: image4,
+        },
+      ],
     };
   },
   methods: {
     getImgUrl(picture) {
       return require(picture);
-    }
-  }
+    },
+  },
 };
 </script>

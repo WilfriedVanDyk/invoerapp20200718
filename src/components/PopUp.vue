@@ -167,11 +167,11 @@ export default {
       status: "",
       beschrijving: "",
       inputValidation: [
-        v => (v && v.length >= 3) || " de minimum lengte is 3 karakters",
-        v => (v && v.length <= 300) || " de maximum lengte is 300 karakters"
+        (v) => (v && v.length >= 3) || " de minimum lengte is 3 karakters",
+        (v) => (v && v.length <= 300) || " de maximum lengte is 300 karakters",
       ],
       loading: false,
-      statusArray: ["in voorbereiding", "afgewerkt", "gepasseerd"]
+      statusArray: ["in voorbereiding", "afgewerkt", "gepasseerd"],
     };
   },
   methods: {
@@ -187,7 +187,7 @@ export default {
           startUur: this.startUur,
           eindUur: this.eindUur,
           status: this.status,
-          beschrijving: this.beschrijving
+          beschrijving: this.beschrijving,
         };
         db.collection("evenementen")
           .add(evenement)
@@ -195,7 +195,7 @@ export default {
             this.loading = false;
             this.dialog = false;
             this.$emit("eventAdded");
-            console.log("added to db: " + evenement.datum);
+            //console.log("added to db: " + evenement.datum);
             this.$refs.form.reset();
           });
       }
@@ -203,15 +203,15 @@ export default {
     cancel() {
       this.dialog = false;
       this.$refs.form.reset();
-    }
+    },
   },
   computed: {
     formattedDate() {
       return this.datum
         ? format(parseISO(this.datum), "do MMMM yyyy", { locale: nl })
         : "";
-    }
-  }
+    },
+  },
 };
 </script>
 
