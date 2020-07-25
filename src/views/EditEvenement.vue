@@ -166,13 +166,36 @@ export default {
   },
   methods: {
     editEvenement() {
+      console.log(
+        "het gewijzigd evenement is: ",
+        this.evenementToUpdate.evenement,
+        this.evenementToUpdate
+      );
+
       if (this.$refs.form.validate()) {
         this.loading = true;
-        console.log(
-          "het gewijzigd evenement is: ",
-          this.evenementToUpdate.evenement,
-          this.evenementToUpdate
-        );
+        const evenement = {
+          evenement: this.evenementToUpdate.evenement,
+          type: this.evenementToUpdate.type,
+          organisator: this.evenementToUpdate.organisator,
+          locatie: this.evenementToUpdate.locatie,
+          datum: this.evenementToUpdate.datum, //format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+          startUur: this.evenementToUpdate.startUur,
+          eindUur: this.evenementToUpdate.eindUur,
+          status: this.evenementToUpdate.status,
+          beschrijving: this.evenementToUpdate.beschrijving,
+        };
+        db.collection("evenementen")
+          .doc(this.evenementToUpdate.id)
+          .update(evenement)
+          .then(() => {
+            this.loading = false;
+            //this.$refs.form.reset();
+            router.push({ name: "dashboard" });
+          })
+          .catch((error) => {
+            console.log("Error getting document:", error);
+          });
       }
 
       //this.loading = false;

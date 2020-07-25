@@ -21,7 +21,7 @@
         <v-data-table
           :headers="headers"
           :items="evenementen"
-          :items-per-page="5"
+          :items-per-page="10"
           :search="search"
           :footer-props="{
         showFirstLastPage: true,
@@ -44,7 +44,7 @@
             <v-chip small :class="`${item.status} white--text caption`">{{item.status}}</v-chip>
           </template>
           <template v-slot:item.evenement="{ item }">
-            <h3 class="text--ligthen-1 grey--text">{{item.evenement}}</h3>
+            <h3 :class="`${item.status} text--ligthen-1 grey--text`">{{item.evenement}}</h3>
           </template>
           <!-- item delete of update -->
           <template v-slot:item.actions="{ item }">
@@ -76,6 +76,7 @@
 
 <script>
 import db from "@/fb.js";
+// router from "@/router/index";
 
 export default {
   name: "dashboard",
@@ -128,6 +129,7 @@ export default {
     },
     deleteItem(id) {
       // console.log("het deleted item id is:  " + id);
+
       db.collection("evenementen")
         .doc(id)
         .delete()
@@ -165,15 +167,13 @@ export default {
             //   this.evenementen = this.evenementen.filter((evenement) => {
             //     return evenement.id != Id;
             //   });
-          } else if (change.type === "modified") {
-            //let Id = change.doc.id;
           }
         });
       });
   },
-  updated: function () {
-    this.$nextTick(function () {});
-  },
+  // updated: function () {
+  //   this.$nextTick(function () {});
+  // },
 
   //GETTING DATA
   // db.collection('evenementen').get().then((snapshot) =>
@@ -221,15 +221,15 @@ export default {
 </script>
 
 <style scoped>
-.evenement.voorbereiding {
-  border-left: 4px solid orange;
+.voorbereiding {
+  border-right: 4px solid orange;
 }
 
-.evenement.afgewerkt {
-  border-left: 4px solid lightgreen;
+.afgewerkt {
+  border-right: 4px solid lightgreen;
 }
-.evenement.gepasseerd {
-  border-left: 4px solid red;
+.gepasseerd {
+  border-right: 4px solid red;
 }
 
 .v-chip.voorbereiding {
