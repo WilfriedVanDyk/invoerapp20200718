@@ -23,6 +23,11 @@ const routes = [
     path: '/team',
     name: 'team',
     component: () => import(/* webpackChunkName: "about" */ '../views/Team.vue')
+  },
+  {
+    path: '/edit-evenement/:id',
+    name: 'EditEvenement',
+    component: () => import(/* webpackChunkName: "about" */ '../views/EditEvenement.vue')
   }
 
 ]

@@ -150,8 +150,10 @@
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import { nl } from "date-fns/locale";
+import router from "@/router/index";
 import db from "@/fb";
 export default {
+  name: "PopUp",
   data() {
     return {
       timePicker1: false,
@@ -183,7 +185,7 @@ export default {
           type: this.type,
           organisator: this.organisator,
           locatie: this.locatie,
-          datum: format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+          datum: this.datum, //format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
           startUur: this.startUur,
           eindUur: this.eindUur,
           status: this.status,
@@ -195,14 +197,15 @@ export default {
             this.loading = false;
             this.dialog = false;
             this.$emit("eventAdded");
-            //console.log("added to db: " + evenement.datum);
             this.$refs.form.reset();
           });
+        router.push({ name: "dashboard" });
       }
     },
     cancel() {
       this.dialog = false;
       this.$refs.form.reset();
+      router.push({ name: "dashboard" });
     },
   },
   computed: {
