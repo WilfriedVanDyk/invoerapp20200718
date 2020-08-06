@@ -131,12 +131,14 @@
             v-model="evenementToUpdate.beschrijving"
             :rules="inputValidation"
           ></v-textarea>
-          <v-btn
-            @click="editEvenement"
-            :loading="loading"
-            class="primary mx-2 mt-3"
-          >Wijzig evenement</v-btn>
-          <v-btn @click="cancel" class="primary mx-2 mt-3">cancel</v-btn>
+          <v-row justify="end">
+            <v-btn @click="cancel" class="primary mx-2 mt-3">cancel</v-btn>
+            <v-btn
+              @click="editEvenement"
+              :loading="loading"
+              class="primary mx-2 mt-3"
+            >Wijzig evenement</v-btn>
+          </v-row>
         </v-form>
       </v-card-text>
     </v-card>

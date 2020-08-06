@@ -37,18 +37,18 @@
           show-expand
         >
           <!-- <template v-slot:header.name="{ header }">{{ header.text.toUpperCase() }}</template> -->
-          <template v-slot:expanded-item="{item }">
-            <td :colspan="headers.length">{{ item.beschrijving }}</td>
-          </template>
-          <template v-slot:item.status="{ item }">
-            <v-chip small :class="`${item.status} white--text caption`">{{item.status}}</v-chip>
-          </template>
           <template v-slot:item.evenement="{ item }">
             <h3 :class="`${item.status} text--ligthen-1 grey--text`">{{item.evenement}}</h3>
           </template>
+          <template v-slot:item.datum="{ item }">{{formattedDate(item.datum)}}</template>
+          <template v-slot:item.status="{ item }">
+            <v-chip small :class="`${item.status} white--text caption`">{{item.status}}</v-chip>
+          </template>
+          <template v-slot:expanded-item="{item }">
+            <td :colspan="headers.length">{{ item.beschrijving }}</td>
+          </template>
           <!-- item delete of update -->
           <template v-slot:item.actions="{ item }">
-            <!-- <routerlink :to="{name:'EditEvenement', params:{id:item.id}}"></router-link> -->
             <v-chip
               text
               color="grey lighten-3"
@@ -58,31 +58,45 @@
               :to="{name:'EditEvenement', params:{id:item.id}}"
             >
               <span>wijzigen</span>
-              <v-icon right>mdi-pencil</v-icon>
+              <v-icon right small>mdi-pencil</v-icon>
             </v-chip>
-            <v-chip text color="grey lighten-3" class="ma-1" small @click="deleteItem(item.id)">
+            <v-chip text color="grey lighten-3" class="ma-1" small @click.stop="dialog = true">
               <span>verwijderen</span>
-              <v-icon right>mdi-delete</v-icon>
+              <v-icon right small>mdi-delete</v-icon>
             </v-chip>
-            <!-- <v-icon small class="mr-2" router :to="{name:'EditEvenement', params:{id:item.id}}">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItem(item.id)">mdi-delete</v-icon>-->
+            <v-dialog v-model="dialog" max-width="300">
+              <v-card>
+                <v-card-title class="headline">Verwijderen ?</v-card-title>
+                <v-card-text>Ben je zeker dat je dit evenement wil verwijderen ?</v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="grey" text @click="dialog = false">Cancel</v-btn>
+
+                  <v-btn color="grey" text @click="deleteItem(item.id)">Verwijderen</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </template>
         </v-data-table>
       </v-card>
     </v-container>
-    <!-- adding components!! -->
   </div>
 </template>
 
 <script>
 import db from "@/fb.js";
-// router from "@/router/index";
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
+import { nl } from "date-fns/locale";
 
 export default {
   name: "dashboard",
   components: {},
   data() {
     return {
+      dialog: false,
       search: "",
       headers: [
         {
@@ -92,7 +106,7 @@ export default {
           groupable: false,
         },
         { text: "Organisator", value: "organisator" },
-        { text: "Datum", value: "datum", align: "right" },
+        { text: "Datum", value: "datum", align: "left" },
         {
           text: "Start uur",
           value: "startUur",
@@ -119,14 +133,6 @@ export default {
     };
   },
   methods: {
-    // sort(prop) {
-    //   this.evenementen.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-    // },
-    editItem(id) {
-      console.log(id); //@click="editItem(item.id)"
-      //hier moet een form getoond worden met alle gegevens van dit document,
-      // waar je in kan werken , en terug opslaan via de update firestore method
-    },
     deleteItem(id) {
       // console.log("het deleted item id is:  " + id);
 
@@ -141,6 +147,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      this.dialog = false;
+    },
+    formattedDate(dat) {
+      return dat ? format(parseISO(dat), "dd MMMM yyyy", { locale: nl }) : "";
     },
   },
   created() {
@@ -234,12 +244,15 @@ export default {
 
 .v-chip.voorbereiding {
   background: orange !important;
+  width: 10em;
 }
 
 .v-chip.afgewerkt {
   background: lightgreen !important;
+  width: 10em;
 }
 .v-chip.gepasseerd {
   background: red !important;
+  width: 10em;
 }
 </style>
