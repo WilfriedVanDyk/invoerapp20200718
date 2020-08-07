@@ -36,7 +36,6 @@
           show-group-by
           show-expand
         >
-          <!-- <template v-slot:header.name="{ header }">{{ header.text.toUpperCase() }}</template> -->
           <template v-slot:item.evenement="{ item }">
             <h3 :class="`${item.status} text--ligthen-1 grey--text`">{{item.evenement}}</h3>
           </template>
@@ -60,20 +59,23 @@
               <span>wijzigen</span>
               <v-icon right small>mdi-pencil</v-icon>
             </v-chip>
+            <!-- <v-chip color="grey lighten-3" class="my-1" small @click="deleteItem(item.id)">
+              <span>verwijderen</span>
+              <v-icon right small>mdi-delete</v-icon>
+            </v-chip>-->
+
             <v-chip text color="grey lighten-3" class="ma-1" small @click.stop="dialog = true">
               <span>verwijderen</span>
               <v-icon right small>mdi-delete</v-icon>
             </v-chip>
-            <v-dialog v-model="dialog" max-width="300">
+
+            <v-dialog v-model="dialog" persistent max-width="300px">
               <v-card>
                 <v-card-title class="headline">Verwijderen ?</v-card-title>
                 <v-card-text>Ben je zeker dat je dit evenement wil verwijderen ?</v-card-text>
-
                 <v-card-actions>
                   <v-spacer></v-spacer>
-
                   <v-btn color="grey" text @click="dialog = false">Cancel</v-btn>
-
                   <v-btn color="grey" text @click="deleteItem(item.id)">Verwijderen</v-btn>
                 </v-card-actions>
               </v-card>
@@ -90,7 +92,7 @@ import db from "@/fb.js";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import { nl } from "date-fns/locale";
-
+//import axios from "axios";
 export default {
   name: "dashboard",
   components: {},
@@ -135,7 +137,18 @@ export default {
   methods: {
     deleteItem(id) {
       // console.log("het deleted item id is:  " + id);
-
+      //hier deleten van het evenement in uitdatabank
+      // axios
+      //   .delete("https://jsonplaceholder.typicode.com/posts/1")
+      //   .then((response) => {
+      //     console.log(response.data);
+      //     console.log(`delete met axios succesfull`);
+      //   })
+      //   .catch((error) => {
+      //     console.log(`${error} delete met axios met errors`);
+      //   })
+      //   .finally(() => console.log("delete met axios complete"));
+      //
       db.collection("evenementen")
         .doc(id)
         .delete()

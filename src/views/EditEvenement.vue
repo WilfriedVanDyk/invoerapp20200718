@@ -151,6 +151,8 @@ import router from "@/router/index";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import { nl } from "date-fns/locale";
+
+import axios from "axios";
 export default {
   name: "EditEvenement",
   data() {
@@ -168,11 +170,11 @@ export default {
   },
   methods: {
     editEvenement() {
-      console.log(
-        "het gewijzigd evenement is: ",
-        this.evenementToUpdate.evenement,
-        this.evenementToUpdate
-      );
+      // console.log(
+      //   "het gewijzigd evenement is: ",
+      //   this.evenementToUpdate.evenement,
+      //   this.evenementToUpdate
+      // );
 
       if (this.$refs.form.validate()) {
         this.loading = true;
@@ -187,6 +189,25 @@ export default {
           status: this.evenementToUpdate.status,
           beschrijving: this.evenementToUpdate.beschrijving,
         };
+
+        //hier put van het evenement naar uitdatabank
+        axios
+          .put("https://jsonplaceholder.typicode.com/posts/1", {
+            body: JSON.stringify({
+              title: "foo",
+              body: "bar",
+              userId: 2,
+            }),
+          })
+          .then((response) => {
+            console.log(response.data);
+            console.log(`put met axios succesfull`);
+          })
+          .catch((error) => {
+            console.log(`${error} + put met axios met errors`);
+          })
+          .finally(() => console.log("put met axios complete"));
+        //
         db.collection("evenementen")
           .doc(this.evenementToUpdate.id)
           .update(evenement)
@@ -199,8 +220,6 @@ export default {
             console.log("Error getting document:", error);
           });
       }
-
-      //this.loading = false;
     },
     cancel() {
       router.push({ name: "dashboard" });
