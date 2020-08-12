@@ -1,5 +1,7 @@
 <template>
   <div class="dashboard">
+    <!-- <vuexProbeersel></vuexProbeersel> -->
+
     <h1 class="subtitle-1 grey--text">Dashboard</h1>
     <!-- de tabel start hier-->
     <v-container fluid class="my-5 grey lighten-4">
@@ -59,12 +61,12 @@
               <span>wijzigen</span>
               <v-icon right small>mdi-pencil</v-icon>
             </v-chip>
-            <!-- <v-chip color="grey lighten-3" class="my-1" small @click="deleteItem(item.id)">
+            <v-chip color="grey lighten-3" class="my-1" small @click="deleteItem(item.id)">
               <span>verwijderen</span>
               <v-icon right small>mdi-delete</v-icon>
-            </v-chip>-->
+            </v-chip>
 
-            <v-chip text color="grey lighten-3" class="ma-1" small @click.stop="dialog = true">
+            <!-- <v-chip text color="grey lighten-3" class="ma-1" small @click.stop="dialog = true">
               <span>verwijderen</span>
               <v-icon right small>mdi-delete</v-icon>
             </v-chip>
@@ -79,7 +81,7 @@
                   <v-btn color="grey" text @click="deleteItem(item.id)">Verwijderen</v-btn>
                 </v-card-actions>
               </v-card>
-            </v-dialog>
+            </v-dialog>-->
           </template>
         </v-data-table>
       </v-card>
@@ -93,9 +95,17 @@ import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import { nl } from "date-fns/locale";
 //import axios from "axios";
+//import vuexProbeersel from "@/components/vuexProbeersel";
+
 export default {
   name: "dashboard",
-  components: {},
+  components: {}, //vuexProbeersel
+  computed: {
+    evenementen() {
+      return this.$store.state.evenementen; //werkt niet : de tabel is nog altijd leeg
+      //return this.$store.dispatch("bindEvenementen");
+    },
+  },
   data() {
     return {
       dialog: false,
@@ -131,7 +141,7 @@ export default {
         { text: "beschrijving", value: "data-table-expand", groupable: false },
         { text: "Acties", value: "actions", sortable: false, groupable: false },
       ],
-      evenementen: [],
+      // evenementen: [],
     };
   },
   methods: {
@@ -167,32 +177,35 @@ export default {
     },
   },
   created() {
-    db.collection("evenementen")
-      .orderBy("evenement")
-      .onSnapshot((snapShot) => {
-        let changes = snapShot.docChanges();
-        changes.forEach((change) => {
-          //console.log(change.doc.data());
-          if (change.type === "added") {
-            this.evenementen.push({
-              ...change.doc.data(),
-              id: change.doc.id,
-            });
-            // console.log(
-            //   `de toegevoegde id is: ${change.doc.id} de naam is ${
-            //     change.doc.data().evenement
-            //   }  en de lengte vd tabel is ${this.evenementen.length} id van ${
-            //     this.evenementen[this.evenementen.length - 1].evenement
-            //   } is ${this.evenementen.length - 1}`
-            // );
-            // } else if (change.type === "removed") {
-            //   let Id = change.doc.id;
-            //   this.evenementen = this.evenementen.filter((evenement) => {
-            //     return evenement.id != Id;
-            //   });
-          }
-        });
-      });
+    this.$store.dispatch("bindEvenementen");
+    //als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
+
+    // db.collection("evenementen")
+    //   .orderBy("evenement")
+    //   .onSnapshot((snapShot) => {
+    //     let changes = snapShot.docChanges();
+    //     changes.forEach((change) => {
+    //       //console.log(change.doc.data());
+    //       if (change.type === "added") {
+    //         this.evenementen.push({
+    //           ...change.doc.data(),
+    //           id: change.doc.id,
+    //         });
+    //         // console.log(
+    //         //   `de toegevoegde id is: ${change.doc.id} de naam is ${
+    //         //     change.doc.data().evenement
+    //         //   }  en de lengte vd tabel is ${this.evenementen.length} id van ${
+    //         //     this.evenementen[this.evenementen.length - 1].evenement
+    //         //   } is ${this.evenementen.length - 1}`
+    //         // );
+    //         // } else if (change.type === "removed") {
+    //         //   let Id = change.doc.id;
+    //         //   this.evenementen = this.evenementen.filter((evenement) => {
+    //         //     return evenement.id != Id;
+    //         //   });
+    //       }
+    //     });
+    //   });
   },
   // updated: function () {
   //   this.$nextTick(function () {});
